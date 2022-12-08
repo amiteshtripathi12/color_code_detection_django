@@ -42,3 +42,4 @@ def get_image_hexcolors(image_path:str) -> List[str]:
 
     hex_colors = color_analysis(image)
     return hex_colors
+
