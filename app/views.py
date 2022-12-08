@@ -1,14 +1,9 @@
 from django.shortcuts import render, redirect
-from collections import Counter
-from sklearn.cluster import KMeans
-from matplotlib import colors
-import matplotlib.pyplot as plt
-import numpy as np
-import cv2
-import os
 from .form import ImageForm
 from .models import Image
 from django.views import View
+
+from .color_detection import get_image_hexcolors
 
 # Create your views here.
 def index(request):
