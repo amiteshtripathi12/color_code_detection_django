@@ -1,25 +1,34 @@
 from django.shortcuts import render, redirect
-from collections import Counter
-from sklearn.cluster import KMeans
-from matplotlib import colors
-import matplotlib.pyplot as plt
-import numpy as np
-import cv2
-import os
 from .form import ImageForm
 from .models import Image
 from django.views import View
+from django.contrib.staticfiles import finders
+
+from .color_detection import get_image_hexcolors
+from color_finder import settings
+
+import os
+
 
 # Create your views here.
 def index(request):
+    colors = []
+    image = None
+
     if request.method == "POST":
-        form = ImageForm(data=request.POST,files=request.FILES)
-        if form.is_valid():
-            form.save()
-            obj = form.instance
-            return render(request,"index.html",{"obj":obj})
-    else:
-        form = ImageForm()
-        #img = Image.objects.all()
-    return render(request,"index.html",{"form":form})
+        uploadImage = request.FILES.get("uploadImage")
+        image = Image()
+        image.image = uploadImage
+        image.save()
+        
+        system_file_path = f"{settings.BASE_DIR.absolute()}{image.image.url}"
+        hex_colors = get_image_hexcolors(system_file_path)
+        print(hex_colors)
+        colors = hex_colors
+
+    context = {
+        "colors":colors,
+        "image":image
+    }
+    return render(request,"index.html",context=context)
 
