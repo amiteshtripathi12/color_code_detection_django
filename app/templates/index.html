@@ -1,0 +1,46 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+
+    <!-- Google Font -->
+	<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DynaPuff&display=swap" rel="stylesheet">    <link rel="stylesheet" href="{% static 'main.css' %}" type="text/css">
+	<title>Django Color Detection</title>
+  </head>
+
+  <body>
+	<div class="container">
+		<h1 class="heading gradient-text">DJango Color Detection</h1>
+		<form action="/" method="post" enctype="multipart/form-data">
+			{% csrf_token %}
+			<label for="imageUpload" class="button">Choose Image</label>
+			<input type="file" id="imageUpload" hidden name="uploadImage"></input>
+			<input class="button" type="submit" value="View Colors">
+		</form>
+
+		<div id="imageUploadPreviewContainer" style="width:100%;max-width:600px;height:max-content;max-height:600px;padding:10px;">
+			{% if image %}
+				<img src="{{image.image.url}}" style="border-radius:20px;width:100%;filter:drop-shadow(2px 2px 4px rgba(9, 6, 4, 0.553));">
+			{% endif %}
+		</div>
+
+		{% if colors %}
+			<div id="results">
+				<h2 class="gradient-text heading">Colors Found In Image</h2>
+				<div id="colorsFound">
+					{% for color in colors %}
+						<span style="background-color:{{color}};" class="color">{{color}}</span>
+					{% endfor %}
+				</div>
+			</div>
+		{% endif %}
+
+	</div>
+    <!-- JavaScript -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="{% static 'main.js' %}"></script>
+</body>
+</html>

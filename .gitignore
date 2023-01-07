@@ -1,0 +1,6 @@
+.idea/
+__pycache__/
+media/uploads/photos/
+app/__pycache__/
+app/migrations/__pycache__/
+color_finder/__pycache__/
